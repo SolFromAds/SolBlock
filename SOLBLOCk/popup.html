@@ -42,9 +42,10 @@
     <div class="container mb-5">
       <div class="row">
         <div class="col-8 offset-2 text-center">
-          <!-- The current website will be updated dynamically -->
+          <!-- This will be updated with the active website's hostname -->
           <h3 id="currentWebsite">Loading...</h3>
-          <p>Ad-blocking is enabled</p>
+          <!-- Ad blocking status text (updated dynamically) -->
+          <p id="adBlockStatus">Ad-blocking status unknown</p>
         </div>
       </div>
     </div>
@@ -52,7 +53,7 @@
     <div class="container pb-2" style="background-color: #151515; border-top-left-radius: 50px; border-top-right-radius: 50px;">
       <div class="row position-relative" style="top: -60px;">
         <div class="col text-center">
-          <!-- Toggle Button for AdBlock: The id "toggleAdblock" is used to attach the listener -->
+          <!-- Toggle Button for AdBlock -->
           <button id="toggleAdblock" class="btn border border-light rounded-pill connect-btn">OFF</button>
         </div>
       </div>
@@ -83,12 +84,10 @@
         <h6 class="text-center">NUMBER OF BLOCKED OBJECTS</h6>
         <div class="col m-1 rounded" style="background-color: #0b0b0b;">
           <small class="text-muted">ON THIS PAGE</small>
-          <!-- This element will be updated with the page ad count -->
           <h1 id="pageAdCount" style="color: #2ff487;">0</h1>
         </div>
         <div class="col m-1 rounded" style="background-color: #0b0b0b;">
           <small class="text-muted">TOTAL</small>
-          <!-- This element will be updated with the total ad count -->
           <h1 id="totalAdCount" style="color: #2ff487;">0</h1>
         </div>
       </div>
