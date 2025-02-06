@@ -21,7 +21,7 @@ const adBlockingRules = [
     priority: 1,
     action: { type: "block" },
     condition: {
-      urlFilter: "://*doubleclick.net/*",
+      urlFilter: "*://*.doubleclick.net/*",
     }
   },
   {
@@ -29,7 +29,7 @@ const adBlockingRules = [
     priority: 1,
     action: { type: "block" },
     condition: {
-      urlFilter: "*//googleadservices.com/*",
+      urlFilter: "*://*.googleadservices.com/*",
     }
   },
   {
