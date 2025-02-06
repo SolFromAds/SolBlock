@@ -2,7 +2,7 @@
     "name": "SOLBLOCK",
     "version": "1.0.0",
     "manifest_version": 3,
-    "description": "helps you to block ad easily with one click",
+    "description": "Adblocker that earns you solana",
     "action": {
         "default_popup": "popup.html"
     },
