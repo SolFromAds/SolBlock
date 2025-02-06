@@ -15,8 +15,8 @@
   "permissions": [
     "storage",
     "tabs",
-    "webRequest",
-    "webRequestBlocking"
+    "declarativeNetRequest",
+    "declarativeNetRequestFeedback"
   ],
   "host_permissions": [
     "<all_urls>"
