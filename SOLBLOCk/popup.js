@@ -1,34 +1,32 @@
 document.addEventListener('DOMContentLoaded', function() {
-  // Retrieve the active tab using windows.getLastFocused to avoid the popup itself.
-  chrome.windows.getLastFocused({ populate: true }, function(window) {
-    if (window && window.tabs) {
-      // Find the active tab that isn't the extension's popup.
-      const activeTab = window.tabs.find(tab => tab.active && tab.url && !tab.url.startsWith('chrome-extension://'));
-      if (activeTab && activeTab.url) {
-        try {
-          const url = new URL(activeTab.url);
-          document.getElementById('currentWebsite').textContent = url.hostname;
-        } catch (e) {
-          console.error("Error parsing URL:", e);
-          document.getElementById('currentWebsite').textContent = "Unknown";
-        }
-      } else {
-        document.getElementById('currentWebsite').textContent = "No active tab";
+  // Request the last active non-extension tab URL from background.
+  chrome.runtime.sendMessage({ action: 'getLastActiveTabUrl' }, function(response) {
+    if (response && response.url) {
+      try {
+        const url = new URL(response.url);
+        document.getElementById('currentWebsite').textContent = url.hostname;
+      } catch (e) {
+        console.error("Error parsing URL from background:", e);
+        document.getElementById('currentWebsite').textContent = "Unknown";
       }
+    } else {
+      document.getElementById('currentWebsite').textContent = "No active tab";
     }
   });
 
-  // Check the current ad block state from background and update UI.
+  // Query the current ad block state.
   chrome.runtime.sendMessage({ action: 'getAdBlockState' }, function(response) {
     const toggleButton = document.getElementById('toggleAdblock');
     const statusElement = document.getElementById('adBlockStatus');
     if (response && typeof response.enabled !== "undefined") {
       statusElement.textContent = response.enabled ? "Ad-blocking is enabled" : "Ad-blocking is disabled";
       toggleButton.textContent = response.enabled ? 'ON' : 'OFF';
+    } else {
+      statusElement.textContent = "Ad-blocking status unknown";
     }
   });
 
-  // Toggle the ad blocking functionality when the button is clicked.
+  // When the toggle button is clicked, ask the background to flip the state.
   var toggleButton = document.getElementById('toggleAdblock');
   toggleButton.addEventListener('click', function() {
     chrome.runtime.sendMessage({ action: 'toggleAdblock' }, function(response) {
@@ -42,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  // Function to update the ad counts from the background service worker.
+  // Function to update the ad counts.
   function updateAdCounts() {
     chrome.runtime.sendMessage({ action: 'getAdCounts' }, function(response) {
       if (response) {
@@ -56,3 +54,4 @@ document.addEventListener('DOMContentLoaded', function() {
   updateAdCounts();
   setInterval(updateAdCounts, 5000);
 });
+
