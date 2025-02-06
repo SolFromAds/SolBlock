@@ -1,105 +1,132 @@
 <html>
-
-<head>
-    <title>CSS practice</title>
+  <head>
+    <title>SolBlock</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/popup.css">
     <style>
-        .form-check-input:checked {
-            background-color: #1f3429;
-            border-color: #2ff487;
-            border: none;
-        }
-
-        .form-check-input:focus {
-            box-shadow: 0 0 0 0.1rem #2ff487;
-        }
-
-        .connect-btn {
-            font-size: 40px;
-            padding-left: 30px;
-            padding-top: 35px;
-            padding-bottom: 35px;
-            padding-right: 30px;
-            background-color: #232323;
-        }
+      .form-check-input:checked {
+        background-color: #1f3429;
+        border-color: #2ff487;
+        border: none;
+      }
+      .form-check-input:focus {
+        box-shadow: 0 0 0 0.1rem #2ff487;
+      }
+      .connect-btn {
+        font-size: 40px;
+        padding-left: 30px;
+        padding-top: 35px;
+        padding-bottom: 35px;
+        padding-right: 30px;
+        background-color: #232323;
+      }
     </style>
-</head>
-
-<body data-bs-theme="dark">
-    <!-- m-3 p-1 -->
+  </head>
+  <body data-bs-theme="dark">
+    <!-- Navigation Bar -->
     <nav class="navbar bg-body-tertiary p-1 rounded m-3">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">
-                <img src="icon.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top">
-                SOLBLOCK
-            </a>
-            <div class="d-flex">
-                <a href="/solana.html" id="solana-btn" class="btn btn-sm"><img src="images/solana.png" alt="" height="32" width="32"></a>
-            </div>
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+          <img src="icon.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top">
+          SOLBLOCK
+        </a>
+        <div class="d-flex">
+          <a href="/solana.html" id="solana-btn" class="btn btn-sm">
+            <img src="images/solana.png" alt="" height="32" width="32">
+          </a>
         </div>
+      </div>
     </nav>
 
+    <!-- Main Content -->
     <div class="container mb-5">
-        <div class="row">
-            <div class="col-8 offset-2 text-center">
-                <h3>YouTube.com</h3>
-                <p>Ad-blocking is enabled</p>
-            </div>
+      <div class="row">
+        <div class="col-8 offset-2 text-center">
+          <!-- The current website will be updated dynamically -->
+          <h3 id="currentWebsite">Loading...</h3>
+          <p>Ad-blocking is enabled</p>
         </div>
+      </div>
     </div>
 
+    <div class="container pb-2" style="background-color: #151515; border-top-left-radius: 50px; border-top-right-radius: 50px;">
+      <div class="row position-relative" style="top: -60px;">
+        <div class="col text-center">
+          <!-- Toggle Button for AdBlock: The id "toggleAdblock" is used to attach the listener -->
+          <button id="toggleAdblock" class="btn border border-light rounded-pill connect-btn">OFF</button>
+        </div>
+      </div>
 
-    <div class="container pb-2"
-        style="background-color: #151515; border-top-left-radius: 50px; border-top-right-radius: 50px;">
-        <div class="row position-relative" style="top: -60px;">
-            <div class="col text-center">
-                <button class="btn border border-light rounded-pill connect-btn">
-                    OFF
-                </button>
-            </div>
+      <div class="row mb-1 ms-2 me-2" style="margin-top: -40px">
+        <div class="col d-flex justify-content-between p-2 rounded" style="background-color: #0b0b0b;">
+          <div>
+            <img src="images/cookie.png" alt="cookies">
+            <span>Skip cookie walls</span>
+          </div>
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" id="cookie-walls-switch">
+          </div>
         </div>
-
-        <div class="row mb-1 ms-2 me-2" style="margin-top: -40px">
-            <div class="col d-flex justify-content-between p-2 rounded" style="background-color: #0b0b0b;">
-                <div>
-                    <img src="images/cookie.png" alt="cookies">
-                    <span>Skip cookie walls</span>
-                </div>
-                <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" role="switch" id="cookie-walls-switch">
-                </div>
-            </div>
+      </div>
+      <div class="row mb-1 ms-2 me-2">
+        <div class="col d-flex justify-content-between p-2 rounded" style="background-color: #0b0b0b;">
+          <div>
+            <img src="images/youtube.png" alt="youtube">
+            <span>Block Distractions</span>
+          </div>
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" id="block-distractions-switch">
+          </div>
         </div>
-        <div class="row mb-1 ms-2 me-2">
-            <div class="col d-flex justify-content-between p-2 rounded" style="background-color: #0b0b0b;">
-                <div>
-                    <img src="images/youtube.png" alt="youtube">
-                    <span>Block Distractions</span>
-                </div>
-                <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" role="switch" id="cookie-walls-switch">
-                </div>
-            </div>
+      </div>
+      <div class="row ms-2 me-2">
+        <h6 class="text-center">NUMBER OF BLOCKED OBJECTS</h6>
+        <div class="col m-1 rounded" style="background-color: #0b0b0b;">
+          <small class="text-muted">ON THIS PAGE</small>
+          <!-- This element will be updated with the page ad count -->
+          <h1 id="pageAdCount" style="color: #2ff487;">0</h1>
         </div>
-        <div class="row ms-2 me-2">
-            <h6 class="text-center">NUMBER OF BLOCKED OBJECTS</h6>
-            <div class="col m-1 rounded" style="background-color: #0b0b0b;">
-                <small class="text-muted">ON THIS PAGE</small>
-                <h1 style="color: #2ff487;">0</h1>
-            </div>
-            <div class="col m-1 rounded" style="background-color: #0b0b0b;">
-                <small class="text-muted">TOTAL</small>
-                <h1 style="color: #2ff487;">0</h1>
-            </div>
+        <div class="col m-1 rounded" style="background-color: #0b0b0b;">
+          <small class="text-muted">TOTAL</small>
+          <!-- This element will be updated with the total ad count -->
+          <h1 id="totalAdCount" style="color: #2ff487;">0</h1>
         </div>
+      </div>
     </div>
-
-
 
     <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="js/popup.js"></script>
+    <!-- Inline script for dynamic functionality -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Update the current website display using the active tab's URL.
+        chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
+          if (tabs.length > 0 && tabs[0].url) {
+            var url = new URL(tabs[0].url);
+            document.getElementById('currentWebsite').textContent = url.hostname;
+          }
+        });
 
-</body>
+        // Toggle the ad blocking functionality.
+        var toggleButton = document.getElementById('toggleAdblock');
+        toggleButton.addEventListener('click', function() {
+          chrome.runtime.sendMessage({ action: 'toggleAdblock' }, function(response) {
+            // Change the button text based on the new state.
+            toggleButton.textContent = response.enabled ? 'ON' : 'OFF';
+          });
+        });
 
+        // Function to update the ad counts from the background script.
+        function updateAdCounts() {
+          chrome.runtime.sendMessage({ action: 'getAdCounts' }, function(response) {
+            document.getElementById('pageAdCount').textContent = response.pageAds;
+            document.getElementById('totalAdCount').textContent = response.totalAds;
+          });
+        }
+
+        // Update ad counts immediately and then every 5 seconds.
+        updateAdCounts();
+        setInterval(updateAdCounts, 5000);
+      });
+    </script>
+  </body>
 </html>
