@@ -98,28 +98,40 @@
     <!-- Inline script for dynamic functionality -->
     <script>
       document.addEventListener('DOMContentLoaded', function() {
-        // Update the current website display using the active tab's URL.
-        chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
+        // Query the active tab using lastFocusedWindow to avoid returning the popup's URL.
+        chrome.tabs.query({ active: true, lastFocusedWindow: true }, function(tabs) {
           if (tabs.length > 0 && tabs[0].url) {
-            var url = new URL(tabs[0].url);
-            document.getElementById('currentWebsite').textContent = url.hostname;
+            try {
+              var url = new URL(tabs[0].url);
+              document.getElementById('currentWebsite').textContent = url.hostname;
+            } catch (e) {
+              console.error("Error parsing URL:", e);
+              document.getElementById('currentWebsite').textContent = "Unknown";
+            }
+          } else {
+            document.getElementById('currentWebsite').textContent = "No active tab";
           }
         });
 
-        // Toggle the ad blocking functionality.
+        // Toggle the ad blocking functionality when the button is clicked.
         var toggleButton = document.getElementById('toggleAdblock');
         toggleButton.addEventListener('click', function() {
           chrome.runtime.sendMessage({ action: 'toggleAdblock' }, function(response) {
-            // Change the button text based on the new state.
-            toggleButton.textContent = response.enabled ? 'ON' : 'OFF';
+            if (response && typeof response.enabled !== "undefined") {
+              toggleButton.textContent = response.enabled ? 'ON' : 'OFF';
+            } else {
+              console.error("No valid response from background.");
+            }
           });
         });
 
-        // Function to update the ad counts from the background script.
+        // Function to update the ad counts from the background service worker.
         function updateAdCounts() {
           chrome.runtime.sendMessage({ action: 'getAdCounts' }, function(response) {
-            document.getElementById('pageAdCount').textContent = response.pageAds;
-            document.getElementById('totalAdCount').textContent = response.totalAds;
+            if (response) {
+              document.getElementById('pageAdCount').textContent = response.pageAds;
+              document.getElementById('totalAdCount').textContent = response.totalAds;
+            }
           });
         }
 
@@ -130,3 +142,4 @@
     </script>
   </body>
 </html>
+
