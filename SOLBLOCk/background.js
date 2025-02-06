@@ -21,8 +21,7 @@ const adBlockingRules = [
     priority: 1,
     action: { type: "block" },
     condition: {
-      urlFilter: "doubleclick.net",
-      resourceTypes: ["main_frame", "sub_frame", "script", "image", "xmlhttprequest"]
+      urlFilter: "://*doubleclick.net/*",
     }
   },
   {
@@ -30,8 +29,7 @@ const adBlockingRules = [
     priority: 1,
     action: { type: "block" },
     condition: {
-      urlFilter: "adservice.google.com",
-      resourceTypes: ["main_frame", "sub_frame", "script", "image", "xmlhttprequest"]
+      urlFilter: "*//googleadservices.com/*",
     }
   },
   {
@@ -39,8 +37,7 @@ const adBlockingRules = [
     priority: 1,
     action: { type: "block" },
     condition: {
-      urlFilter: "ads.example.com",
-      resourceTypes: ["main_frame", "sub_frame", "script", "image", "xmlhttprequest"]
+      urlFilter: "*://ads.example.com/*",
     }
   }
 ];
