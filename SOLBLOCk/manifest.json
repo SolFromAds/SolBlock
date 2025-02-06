@@ -1,16 +1,27 @@
 {
-    "name": "SOLBLOCK",
-    "version": "1.0.0",
-    "manifest_version": 3,
-    "description": "Adblocker that earns you solana",
-    "action": {
-        "default_popup": "popup.html"
-    },
-    "icons": {
-        "128": "icon.png",
-        "64": "icon.png",
-        "32": "icon.png",
-        "16": "icon.png"
-    },
-    "permissions": ["storage"]
+  "name": "SOLBLOCK",
+  "version": "1.0.0",
+  "manifest_version": 3,
+  "description": "Adblocker with Solana rewards",
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "icons": {
+    "128": "icon.png",
+    "64": "icon.png",
+    "32": "icon.png",
+    "16": "icon.png"
+  },
+  "permissions": [
+    "storage",
+    "tabs",
+    "webRequest",
+    "webRequestBlocking"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  }
 }
