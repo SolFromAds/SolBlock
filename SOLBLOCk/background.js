@@ -1,8 +1,7 @@
-// On installation, initialize storage and remove any previous ad blocking rules.
 chrome.runtime.onInstalled.addListener((object) => {
   if (object.reason === chrome.runtime.OnInstalledReason.INSTALL) {
     chrome.storage.local.set({ solAddress: "" });
-    // Clear any previously set dynamic rules (using our defined rule IDs).
+    // Clear any previously set dynamic rules.
     chrome.declarativeNetRequest.updateDynamicRules({
       removeRuleIds: [1, 2, 3]
     });
@@ -14,7 +13,7 @@ let adBlockEnabled = false;
 let totalAdsBlocked = 0;
 let pageAdsBlocked = {};
 
-// Define ad blocking rules (adjust URL filters as needed).
+// Define ad blocking rules (adjust filters as needed).
 const adBlockingRules = [
   {
     id: 1,
@@ -45,8 +44,8 @@ const adBlockingRules = [
   }
 ];
 
-// Listen to the onRuleMatchedDebug event to count blocked requests.
-// (Requires "declarativeNetRequestFeedback" permission in the manifest.)
+// Listen to onRuleMatchedDebug to count blocked requests.
+// (Requires the declarativeNetRequestFeedback permission.)
 chrome.declarativeNetRequest.onRuleMatchedDebug.addListener((info) => {
   totalAdsBlocked++;
   const tabId = info.request.tabId;
@@ -55,31 +54,36 @@ chrome.declarativeNetRequest.onRuleMatchedDebug.addListener((info) => {
   }
 });
 
-// Function to update ad blocking rules based on the current toggle state.
+// Function to update ad blocking rules.
 function updateAdBlockRules() {
   if (adBlockEnabled) {
-    // Add our ad blocking rules.
-    chrome.declarativeNetRequest.updateDynamicRules({
+    return chrome.declarativeNetRequest.updateDynamicRules({
       removeRuleIds: [],
       addRules: adBlockingRules
     });
   } else {
-    // Remove our ad blocking rules.
-    chrome.declarativeNetRequest.updateDynamicRules({
+    return chrome.declarativeNetRequest.updateDynamicRules({
       removeRuleIds: adBlockingRules.map(rule => rule.id)
     });
   }
 }
 
-// Listen for messages from your popup to toggle ad blocking or get counts.
+// Listen for messages from the popup.
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === "toggleAdblock") {
     adBlockEnabled = !adBlockEnabled;
-    updateAdBlockRules();
-    sendResponse({ enabled: adBlockEnabled });
+    updateAdBlockRules().then(() => {
+      sendResponse({ enabled: adBlockEnabled });
+    }).catch((error) => {
+      console.error(error);
+      sendResponse({ enabled: adBlockEnabled });
+    });
+    return true; // indicates asynchronous response
   } else if (message.action === "getAdCounts") {
     const tabId = sender.tab ? sender.tab.id : null;
     const pageAds = tabId && pageAdsBlocked[tabId] ? pageAdsBlocked[tabId] : 0;
     sendResponse({ pageAds: pageAds, totalAds: totalAdsBlocked });
+  } else if (message.action === "getAdBlockState") {
+    sendResponse({ enabled: adBlockEnabled });
   }
 });
