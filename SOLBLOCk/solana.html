@@ -1,0 +1,51 @@
+<html>
+
+<head>
+    <title>CSS practice</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/popup.css">
+    <style>
+
+    </style>
+</head>
+
+<body data-bs-theme="dark">
+    <!-- m-3 p-1 -->
+    <nav class="navbar bg-body-tertiary p-1 rounded m-3">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="icon.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top">
+                SOLBLOCK
+            </a>
+            <div class="d-flex">
+                <a href="/popup.html" id="back-btn" class="btn btn-sm border">Back</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+            <div class="col text-center">
+                <form id="solana-form">
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Solana Address</label>
+                        <input type="text" class="form-control" id="solana-address"
+                            placeholder="Solana wallet address (e.g., 3n5G...xyz)" required>
+                    </div>
+                    <button class="btn btn-sm btn-success">Save</button>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-center">
+                <p id="sol-address" class="text-break mx-auto px-3" style="max-width: 95%;">No address found</p>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/solana.js"></script>
+</body>
+
+</html>

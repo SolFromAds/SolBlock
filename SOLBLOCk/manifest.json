@@ -1,0 +1,16 @@
+{
+    "name": "SOLBLOCK",
+    "version": "1.0.0",
+    "manifest_version": 3,
+    "description": "helps you to block ad easily with one click",
+    "action": {
+        "default_popup": "popup.html"
+    },
+    "icons": {
+        "128": "icon.png",
+        "64": "icon.png",
+        "32": "icon.png",
+        "16": "icon.png"
+    },
+    "permissions": ["storage"]
+}
