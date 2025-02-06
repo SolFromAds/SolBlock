@@ -1,7 +1,7 @@
 {
   "name": "SOLBLOCK",
   "version": "1.0.0",
-  "manifest_version": 2,
+  "manifest_version": 3,
   "description": "Adblocker with Solana rewards",
   "action": {
     "default_popup": "popup.html"
