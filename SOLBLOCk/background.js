@@ -10,7 +10,7 @@ chrome.runtime.onInstalled.addListener((object) => {
 });
 
 // Global state for ad blocking.
-let adBlockEnabled = false;
+let adBlockEnabled = true;
 let totalAdsBlocked = 0;
 let pageAdsBlocked = {};
 
